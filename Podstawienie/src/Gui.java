@@ -13,10 +13,13 @@ import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class Gui extends JFrame {
 
@@ -29,6 +32,7 @@ public class Gui extends JFrame {
 	private DefaultTableModel modelA;
 	private DefaultTableModel modelB;
 	private DefaultTableModel modelC;
+	private JTextField Czaspomiaru;
 	/**
 	 * Launch the application.
 	 */
@@ -69,8 +73,8 @@ public class Gui extends JFrame {
 		Dane.setBounds(10, 10, 411, 62);
 		Wprowadzenie.add(Dane);
 		Dane.setLayout(null);
-		
-		JSpinner spinner = new JSpinner();
+		SpinnerModel model2 = new SpinnerNumberModel(1, 0, 9999, 1);
+		JSpinner spinner = new JSpinner(model2);
 		spinner.setBounds(10, 32, 68, 20);
 		Dane.add(spinner);
 		
@@ -106,7 +110,7 @@ public class Gui extends JFrame {
 		Dane.add(Rysuj);
 		
 		JLabel lblNewLabel = new JLabel("Liczba kolumn i wierszy macierzy");
-		lblNewLabel.setBounds(10, 10, 163, 13);
+		lblNewLabel.setBounds(10, 10, 189, 13);
 		Dane.add(lblNewLabel);
 		
 		JButton Oblicz = new JButton("Oblicz");
@@ -133,9 +137,11 @@ public class Gui extends JFrame {
 				for (int i = 0 ; i < nRow2 ; i++)
 				        for (int j = 0 ; j < colu2 ; j++)
 				           tableData2[i] = Double.parseDouble(String.valueOf(modelB.getValueAt(i,j)));
-				System.out.println(tableData2[0]);
+			
 				Subsitution subsitutionExample = new Subsitution(nRow, tableData, tableData2);
 				matrixW=subsitutionExample.calculate();
+				Czaspomiaru.setText(String.valueOf(subsitutionExample.getTimeInNano()));
+				
 				System.out.println(Arrays.toString(matrixW));
 				
 				
@@ -144,6 +150,16 @@ public class Gui extends JFrame {
 		});
 		Oblicz.setBounds(183, 31, 85, 21);
 		Dane.add(Oblicz);
+		
+		Czaspomiaru = new JTextField();
+		Czaspomiaru.setEditable(false);
+		Czaspomiaru.setBounds(291, 32, 96, 19);
+		Dane.add(Czaspomiaru);
+		Czaspomiaru.setColumns(10);
+		
+		JLabel lblCzaspomiaru = new JLabel("Czas pomiaru");
+		lblCzaspomiaru.setBounds(291, 10, 96, 13);
+		Dane.add(lblCzaspomiaru);
 		
 		JPanel Macierz = new JPanel();
 		Macierz.setBounds(10, 71, 411, 155);
@@ -197,5 +213,4 @@ public class Gui extends JFrame {
 		JPanel Wyniki = new JPanel();
 		tabbedPane.addTab("Wynik", null, Wyniki, null);
 	}	
-	
 }
